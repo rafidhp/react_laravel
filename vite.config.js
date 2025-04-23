@@ -9,5 +9,7 @@ export default defineConfig({
             refresh: true,
         }),
         react(),
-    ],
+    ], server: {
+        https: true,
+    }
 });
