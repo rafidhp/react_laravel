@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - DB_HOST=mysql-650917d9.railway.internal
+      - DB_PORT=3306
+      - DB_DATABASE=himarpl_db
+      - DB_USERNAME=root
+      - DB_PASSWORD=afaBRpyPhveIOMclBxUgiGwJWdhRnSNq
+
+  mysql-650917d9.railway.internal:
+    image: mysql:9
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: afaBRpyPhveIOMclBxUgiGwJWdhRnSNq
+      MYSQL_DATABASE: himarpl_db
+    ports:
+      - "3306:3306"
