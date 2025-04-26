@@ -29,7 +29,7 @@ RUN php artisan config:clear \
     && php artisan route:cache
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html \
+RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 80
