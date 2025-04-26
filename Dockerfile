@@ -14,7 +14,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy Laravel project
+# Copy full project (termasuk hasil build React di public/build)
 COPY . .
 
 # Copy custom Apache config
@@ -23,7 +23,12 @@ COPY apache.conf /etc/apache2/sites-available/000-default.conf
 # Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Set proper permissions
+# Laravel: Clear and cache configs
+RUN php artisan config:clear \
+    && php artisan config:cache \
+    && php artisan route:cache
+
+# Set permissions
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache
 
