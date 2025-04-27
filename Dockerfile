@@ -1,3 +1,8 @@
+FROM node:18 AS build
+
+RUN npm install \
+    && npm run build
+
 FROM php:8.2-apache
 
 # Install PHP extensions
