@@ -40,7 +40,8 @@ RUN php artisan config:clear \
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html /var/www/html/storage /var/www/html/bootstrap/cache \
-    && chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache
+    && chmod -R 755 /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R o+w var/www/html/storage
 
 EXPOSE 80
 CMD ["apache2-foreground"]
