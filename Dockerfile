@@ -6,12 +6,19 @@ RUN npm install \
 FROM php:8.2-apache
 
 # Install PHP extensions
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y apache2-utils ssl-cert\
     git unzip curl libzip-dev libpng-dev libonig-dev libxml2-dev zip openssl \
     && docker-php-ext-install pdo_mysql zip
 
+# Salin konfigurasi Apache
+COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
+
+# Aktivasi virtual host SSL
+RUN a2ensite default-ssl.conf
+
 # Enable Apache rewrite module
-RUN a2enmod rewrite
+RUN a2enmod ssl \
+    && a2enmod rewrite
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -22,9 +29,6 @@ WORKDIR /var/www/html
 # Copy full project (termasuk hasil build React di public/build)
 COPY . .
 COPY ./public/build/ /var/www/html/public/
-
-# Copy custom Apache config
-COPY apache.conf /etc/apache2/sites-available/000-default.conf
 
 # Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader
