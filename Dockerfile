@@ -21,7 +21,7 @@ WORKDIR /var/www/html
 
 # Copy full project (termasuk hasil build React di public/build)
 COPY . .
-COPY build/ /var/www/html/public/
+COPY ./public/build/ /var/www/html/public/
 
 # Copy custom Apache config
 COPY apache.conf /etc/apache2/sites-available/000-default.conf
